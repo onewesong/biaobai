@@ -47,6 +47,7 @@ canvas {
 
   <canvas id="pinkboard"></canvas>
 
+  <div id="center-text">阿囡囡</div>
   <script>
 
   /*
@@ -352,11 +353,20 @@ var ParticlePool = (function() {
 
       time,
 
-      mouseX = canvas.width / 2,
+      centerText = document.getElementById('center-text');
 
-      mouseY = canvas.height / 2,
+  // style the center text to replace cursor
+  centerText.style.position = 'fixed';
+  centerText.style.color = '#ea80b0';
+  centerText.style.fontSize = '50px';
+  centerText.style.fontWeight = 'bold';
+  centerText.style.pointerEvents = 'none';
+  centerText.style.zIndex = '1000';
+  centerText.style.textShadow = '0 0 20px #ea80b0, 0 0 40px #ea80b0';
+  centerText.style.transform = 'translate(-50%, -50%)';
 
-      followMouse = false;
+  // hide the default cursor
+  document.body.style.cursor = 'none';
 
  
 
@@ -478,9 +488,10 @@ var ParticlePool = (function() {
 
       var dir = pos.clone().length(settings.particles.velocity);
 
-      var centerX = followMouse ? mouseX : canvas.width / 2;
+      // get current mouse position from text element
+      var centerX = parseFloat(centerText.style.left) || window.innerWidth / 2;
 
-      var centerY = followMouse ? mouseY : canvas.height / 2;
+      var centerY = parseFloat(centerText.style.top) || window.innerHeight / 2;
 
       particles.add(centerX + pos.x, centerY - pos.y, dir.x, -dir.y);
 
@@ -510,25 +521,11 @@ var ParticlePool = (function() {
 
   window.onresize = onResize;
 
-  // track mouse position
-
+  // track mouse position and move text to follow cursor
   document.addEventListener('mousemove', function(e) {
-
-    mouseX = e.clientX;
-
-    mouseY = e.clientY;
-
+    centerText.style.left = e.clientX + 'px';
+    centerText.style.top = e.clientY + 'px';
   });
-
-  // enable mouse following after 2 seconds
-
-  setTimeout(function() {
-
-    followMouse = true;
-
-  }, 2000);
-
- 
 
   // delay rendering bootstrap
 
@@ -543,28 +540,6 @@ var ParticlePool = (function() {
 })(document.getElementById('pinkboard'));
 
   </script>
-<div class="center-text",
-
-  style="background-color:rgb(0, 0, 0);
-
-        width: 100%;
-
-        color: #ea80b0;
-
-        height:100%;
-
-        font-size: 25px;
-
-
-        display: flex;
-
-        align-items: center;
-
-        justify-content: center;
-
-        margin-bottom: 5px;
-
-        text-align: center;">阿囡囡</div>
  </BODY>
 
 </HTML>
