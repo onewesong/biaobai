@@ -350,7 +350,13 @@ var ParticlePool = (function() {
 
       particleRate = settings.particles.length / settings.particles.duration, // particles/sec
 
-      time;
+      time,
+
+      mouseX = canvas.width / 2,
+
+      mouseY = canvas.height / 2,
+
+      followMouse = false;
 
  
 
@@ -472,7 +478,11 @@ var ParticlePool = (function() {
 
       var dir = pos.clone().length(settings.particles.velocity);
 
-      particles.add(canvas.width / 2 + pos.x, canvas.height / 2 - pos.y, dir.x, -dir.y);
+      var centerX = followMouse ? mouseX : canvas.width / 2;
+
+      var centerY = followMouse ? mouseY : canvas.height / 2;
+
+      particles.add(centerX + pos.x, centerY - pos.y, dir.x, -dir.y);
 
     }
 
@@ -499,6 +509,24 @@ var ParticlePool = (function() {
   }
 
   window.onresize = onResize;
+
+  // track mouse position
+
+  document.addEventListener('mousemove', function(e) {
+
+    mouseX = e.clientX;
+
+    mouseY = e.clientY;
+
+  });
+
+  // enable mouse following after 2 seconds
+
+  setTimeout(function() {
+
+    followMouse = true;
+
+  }, 2000);
 
  
 
