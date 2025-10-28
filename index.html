@@ -353,7 +353,19 @@ var ParticlePool = (function() {
 
       time,
 
+      // get text from URL parameter or use default
+      urlParams = new URLSearchParams(window.location.search),
+
       centerText = document.getElementById('center-text');
+
+  // update text content from URL parameter
+  var customText = urlParams.get('text');
+
+  if (customText) {
+
+    centerText.textContent = customText;
+
+  }
 
   // style the center text to replace cursor
   centerText.style.position = 'fixed';
